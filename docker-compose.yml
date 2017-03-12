@@ -1,0 +1,42 @@
+# Magento2 Docker Compose for local development
+# Based on - Mage Inferno Docker Compose (https://github.com/mageinferno/magento2-docker-compose)
+
+version: '2'
+services:
+  app:
+    image: mageinferno/magento2-nginx:1.11-1
+    links:
+      - phpfpm
+      - db
+    volumes:
+      - ./../../projects/magento2-new:/var/www
+    ports:
+      - 8000:80
+
+  phpfpm:
+    image: claudiupersoiu/magento2-php
+    links:
+      - db
+    volumes:
+      - ./../../projects/magento2-new:/var/www
+
+  db:
+    image: percona:5.7
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - 8001:3306
+    env_file: env/mysql.env
+
+  setup:
+    image: claudiupersoiu/magento2-php
+    command: /usr/local/bin/mage-setup
+    links:
+      - db
+    volumes:
+      - ./../../projects/magento2-new:/var/www
+    env_file: env/setup.env
+
+volumes:
+  dbdata:
+    driver: "local"
