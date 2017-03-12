@@ -1,4 +1,6 @@
 # Magento2 Docker Compose for local development
+# https://github.com/claudiu-persoiu/magento2-docker-compose
+#
 # Based on - Mage Inferno Docker Compose (https://github.com/mageinferno/magento2-docker-compose)
 
 version: '2'
