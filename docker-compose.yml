@@ -16,7 +16,7 @@ services:
       - 8000:80
 
   phpfpm:
-    image: claudiupersoiu/magento2-php
+    build: build/php
     links:
       - db
     volumes:
@@ -31,7 +31,7 @@ services:
     env_file: env/mysql.env
 
   setup:
-    image: claudiupersoiu/magento2-php
+    build: build/php
     command: /usr/local/bin/mage-setup
     links:
       - db
