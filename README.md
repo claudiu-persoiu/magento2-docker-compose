@@ -2,12 +2,16 @@
 Magento2 Docker Compose for local development
 To install run:
   
-    mkdir magento2/html
-    
-    docker-compose build
-  
-    docker-compose run --rm setup
+    make setup
 
 To run:
 
     docker-compose up -d
+
+To clear cache:
+
+    make clean
+    
+Open a shell in the php container:
+
+    make bash
