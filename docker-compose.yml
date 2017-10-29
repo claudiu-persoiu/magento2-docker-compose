@@ -16,7 +16,7 @@ services:
       - 8000:80
 
   phpfpm:
-    build: build/php
+    image: claudiupersoiu/magento2-php
     links:
       - db
     volumes:
