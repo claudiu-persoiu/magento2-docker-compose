@@ -10,31 +10,31 @@ Add a shortcut to dkc_short file to your bash init file (.bashrc or .bash_profil
 ### Commands
 - Start the containers:
 
-    dkc-up -d
+    **dkc-up -d**
 
 - Stop all the containers:
 
-    dkc-down
+    **dkc-down**
 
 - Clear cache:
 
-    dkc-clean
+    **dkc-clean**
     
 - To run a Magento console command
 
-    dkc-mag *command*
+    **dkc-mag *command***
     
 - To run a command inside the PHP container as web user:
 
-    dkc-php-run *command*
+    **dkc-php-run *command***
     
 - To run a command inside the PHP container as root
 
-    dkc-exec phpfpm *command*
+    **dkc-exec phpfpm *command***
     
 - Run a command on a container:
 
-    dkc-exec *container_id* *command*
+    **dkc-exec *container_id* *command***
   
 
 ### Limitations
