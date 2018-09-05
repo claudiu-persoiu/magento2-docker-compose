@@ -1,44 +1,84 @@
 # Magento2 Docker Compose for local development
 # https://github.com/claudiu-persoiu/magento2-docker-compose
-#
-# Based on - Mage Inferno Docker Compose (https://github.com/mageinferno/magento2-docker-compose)
 
-version: '2'
+version: '3'
 services:
   app:
-    image: mageinferno/magento2-nginx:1.11-1
-    links:
-      - phpfpm
-      - db
+    image: claudiupersoiu/magento2-nginx-ssl:latest
     volumes:
-      - ./magento2:/var/www
+    - ./magento2:/var/www
+    - ssl:/etc/nginx/ssl
     ports:
-      - 8000:80
+    - 80:80
+    - 443:443
+    networks:
+    - appnet
 
   phpfpm:
-    image: claudiupersoiu/magento2-php
-    links:
-      - db
+    image: claudiupersoiu/magento2-phpfpm:latest
     volumes:
-      - ./magento2:/var/www
+    - ./magento2:/var/www
+    networks:
+    - appnet
+    environment:
+      XDEBUG_CONFIG: "remote_host=${IP}"
+      PHP_IDE_CONFIG: "serverName=magento"
+      WWW_DATA_UID: "${USER_ID}"
+      WWW_DATA_GID: "${GROUP_ID}"
+      XDEBUG_NESTING_LEVEL: 10000
+      MAGE_RUN_TYPE: "website"
+  #      MAGE_RUN_CODE: "default"
 
   db:
     image: percona:5.7
     volumes:
-      - dbdata:/var/lib/mysql
+    - dbdata:/var/lib/mysql
     ports:
-      - 8001:3306
-    env_file: env/mysql.env
+    - 8008:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: magento2
+      MYSQL_DATABASE: magento2
+      MYSQL_USER: magento2
+      MYSQL_PASSWORD: magento2
+    networks:
+    - appnet
 
-  setup:
-    build: build/php
-    command: /usr/local/bin/mage-setup
-    links:
-      - db
-    volumes:
-      - ./magento2:/var/www
-    env_file: env/setup.env
+  cache:
+    image: redis:alpine
+    networks:
+    - appnet
+
+  fpc:
+    image: redis:alpine
+    networks:
+    - appnet
+#
+#  elasticsearch:
+#    image: elasticsearch:2.4.6
+#    container_name: elasticsearch
+#    environment:
+#    - cluster.name=docker-cluster
+#    - bootstrap.memory_lock=true
+#    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#    - esdata:/usr/share/elasticsearch/data
+#    ports:
+#    - 9200:9200
+#    networks:
+#    - appnet
+
 
 volumes:
   dbdata:
     driver: "local"
+  ssl:
+    driver: "local"
+#  esdata:
+#    driver: "local"
+networks:
+  appnet:
+    driver: "bridge"

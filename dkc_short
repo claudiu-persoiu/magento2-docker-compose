@@ -1,0 +1,15 @@
+export_variables () {
+	export IP=`ip route get 8.8.8.8 | head -1 | cut -d' ' -f8`
+	export USER_ID=`id -u`
+	export GROUP_ID=`id -g`
+}
+
+alias dkc-gen="IP=`ip route get 8.8.8.8 | head -1 | cut -d' ' -f7` USER_ID=`id -u` GROUP_ID=`id -g` docker-compose"
+
+alias dkc-up='export_variables; dkc-gen up'
+alias dkc-down='dkc-gen down'
+alias dkc-exec='dkc-gen exec'
+alias dkc-php='dkc-exec phpfpm'
+alias dkc-php-run='dkc-php run.sh'
+alias dkc-mag='dkc-php-run php bin/magento'
+alias dkc-clean='dkc-mag cache:clean'
