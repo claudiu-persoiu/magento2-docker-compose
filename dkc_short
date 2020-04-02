@@ -1,3 +1,5 @@
+
+# magento2-docker-compose start
 export_variables () {
 	export IP=`ip route get 8.8.8.8 | head -1 | cut -d' ' -f8`
 	export USER_ID=`id -u`
@@ -13,3 +15,5 @@ alias dkc-php='dkc-exec phpfpm'
 alias dkc-php-run='dkc-php run.sh'
 alias dkc-mag='dkc-php-run php bin/magento'
 alias dkc-clean='dkc-mag cache:clean'
+# magento2-docker-composer end
+
