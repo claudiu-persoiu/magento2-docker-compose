@@ -4,8 +4,7 @@ Magento2 Docker Compose for local development
 ### To install:
 Add a shortcut to dkc_short file to your bash init file (.bashrc or .bash_profile) using:
 
-    echo `pwd`'/dkc_short' >> ~/.bash_profile 
-    source ~/.bash_profile
+    echo `pwd`'/dkc_short' >> ~/.bash_profile && chmod 766 dkc_short && source ~/.bash_profile
 
 ### Commands
 - Start the containers:
